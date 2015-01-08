@@ -1,0 +1,13 @@
+body {
+   background-color: #d0e4fe;
+   color: #000080;
+}
+
+p {
+   font-size: 115%;
+   font-weight: bold;
+}
+
+.test {
+   text-align: center;
+}
