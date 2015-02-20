@@ -126,7 +126,7 @@ request.execute(function(resp) {
                     console.log('Display Name: ' + response.displayName);
                     console.log('Image URL: ' + response.image.url);
                     console.log('Profile URL: ' + response.url);
-                    $("#name").html(response.id);
+                    $("#name").html(response.displayName + "'s Clock");
                 });
             });
     var AlarmObject = Parse.Object.extend("Alarm");
