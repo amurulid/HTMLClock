@@ -108,8 +108,16 @@ function signinCallback(authResult) {
     // Hide the sign-in button now that the user is authorized, for example:
     document.getElementById('signinButton').setAttribute('style', 'display: none');
         Parse.initialize("01owFsTOu7b2ip8DKNoarvK76RW4acswtSjYVnQD", "u1u7M4gmsa5q6LzKU9lvl8dGYrQjqnRlUWnA4fcg");
-        Person mePerson = plus.people().get("me").execute();
-      $("#forecastLabel").html(mePerson.getId());
+       var request = gapi.client.plus.people.get({
+  'userId' : 'me'
+});
+request.execute(function(resp) {
+  console.log('ID: ' + resp.id);
+  console.log('Display Name: ' + resp.displayName);
+  console.log('Image URL: ' + resp.image.url);
+  console.log('Profile URL: ' + resp.url);
+});
+    //  $("#forecastLabel").html(mePerson.getId());
     var AlarmObject = Parse.Object.extend("Alarm");
     var query = new Parse.Query(AlarmObject);
     query.find({
