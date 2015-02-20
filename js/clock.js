@@ -100,7 +100,7 @@ function deleteAlarm() {
                alarm_object.destroy({});
           }
         }
- */   });
+    });*/
 }
 
 function getAlarm(id) {
