@@ -89,7 +89,7 @@ function addAlarm() {
 }
 
 function deleteAlarm() {
-    alarmName1 =$("#delAlarm").val();
+/*    alarmName1 =$("#delAlarm").val();
     
     var AlarmObject = Parse.Object.extend("Alarm");
     var query = new Parse.Query(AlarmObject);
@@ -100,7 +100,7 @@ function deleteAlarm() {
                alarm_object.destroy({});
           }
         }
-    });
+ */   });
 }
 
 function getAlarm(id) {
