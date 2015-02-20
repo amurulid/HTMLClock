@@ -112,7 +112,7 @@ function getAlarm(id) {
         success: function(results) {
           for (var i = 0; i < results.length; i++) { 
             if (results[i].get("userid") == id) 
-                insertAlarm(results[i].get("hours"), results[i].get("mins"), results[i].get("ampm"), results[i].get("userid"));
+                insertAlarm(results[i].get("hours"), results[i].get("mins"), results[i].get("ampm"), results[i].get("alarmName"));
           }
         }
     });
