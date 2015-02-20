@@ -78,7 +78,7 @@ function addAlarm() {
     
     var AlarmObject = Parse.Object.extend("Alarm");
     var alarmObject = new AlarmObject();
-      alarmObject.save({"hours": hours, "mins": mins, "ampm": ampm,"alarmName": alarmName}, {
+      alarmObject.save({"hours": hours, "mins": mins, "ampm": ampm,"alarmName": alarmName,"userid": "arnav"}, {
       success: function(object) {
             insertAlarm(hours, mins, ampm, alarmName);
             hideAlarmPopup();
@@ -102,14 +102,15 @@ function deleteAlarm() {
 });
 }
 
-function getAlarm() {
+function getAlarm(id) {
         Parse.initialize("01owFsTOu7b2ip8DKNoarvK76RW4acswtSjYVnQD", "u1u7M4gmsa5q6LzKU9lvl8dGYrQjqnRlUWnA4fcg");
     var AlarmObject = Parse.Object.extend("Alarm");
     var query = new Parse.Query(AlarmObject);
     query.find({
         success: function(results) {
           for (var i = 0; i < results.length; i++) { 
-            insertAlarm(results[i].get("hours"), results[i].get("mins"), results[i].get("ampm"), results[i].get("alarmName"));
+            if (results[i[.get("userid") == "arnav") 
+                insertAlarm(results[i].get("hours"), results[i].get("mins"), results[i].get("ampm"), results[i].get("userid"));
           }
         }
     });
@@ -128,7 +129,7 @@ function signinCallback(authResult) {
                     console.log('Image URL: ' + response.image.url);
                     console.log('Profile URL: ' + response.url);
                     $("#name").html(response.displayName + "'s Clock");
-                    getAlarm();
+                    getAlarm(response.id);
                 });
             });
   } else {
