@@ -109,7 +109,7 @@ function getAlarm(id) {
     query.find({
         success: function(results) {
           for (var i = 0; i < results.length; i++) { 
-            if (results[i[.get("userid") == "arnav") 
+          //  if (results[i[.get("userid") == "arnav") 
                 insertAlarm(results[i].get("hours"), results[i].get("mins"), results[i].get("ampm"), results[i].get("userid"));
           }
         }
