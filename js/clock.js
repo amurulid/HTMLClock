@@ -102,33 +102,8 @@ function deleteAlarm() {
 });
 }
 
-function signinCallback(authResult) {
-  if (authResult['status']['signed_in']) {
-    // Update the app to reflect a signed in user
-    // Hide the sign-in button now that the user is authorized, for example:
-    document.getElementById('signinButton').setAttribute('style', 'display: none');
+function getAlarm() {
         Parse.initialize("01owFsTOu7b2ip8DKNoarvK76RW4acswtSjYVnQD", "u1u7M4gmsa5q6LzKU9lvl8dGYrQjqnRlUWnA4fcg");
-       /*var request = gapi.client.plus.people.get({
-  'userId' : 'me'
-});
-request.execute(function(resp) {
-  console.log('ID: ' + resp.id);
-  console.log('Display Name: ' + resp.displayName);
-  console.log('Image URL: ' + resp.image.url);
-  console.log('Profile URL: ' + resp.url);
-});*/
-    //  $("#forecastLabel").html(mePerson.getId());
-    
-                gapi.client.load('plus','v1', function(){ 
-                var request = gapi.client.plus.people.get({'userId' : 'me'});
-                request.execute(function(response) {
-                    console.log('ID: ' + response.id);
-                    console.log('Display Name: ' + response.displayName);
-                    console.log('Image URL: ' + response.image.url);
-                    console.log('Profile URL: ' + response.url);
-                    $("#name").html(response.displayName + "'s Clock");
-                });
-            });
     var AlarmObject = Parse.Object.extend("Alarm");
     var query = new Parse.Query(AlarmObject);
     query.find({
@@ -138,6 +113,24 @@ request.execute(function(resp) {
           }
         }
     });
+}
+
+function signinCallback(authResult) {
+  if (authResult['status']['signed_in']) {
+    // Update the app to reflect a signed in user
+    // Hide the sign-in button now that the user is authorized, for example:
+    document.getElementById('signinButton').setAttribute('style', 'display: none');
+                    gapi.client.load('plus','v1', function(){ 
+                var request = gapi.client.plus.people.get({'userId' : 'me'});
+                request.execute(function(response) {
+                    console.log('ID: ' + response.id);
+                    console.log('Display Name: ' + response.displayName);
+                    console.log('Image URL: ' + response.image.url);
+                    console.log('Profile URL: ' + response.url);
+                    $("#name").html(response.displayName + "'s Clock");
+                    getAlarm();
+                });
+            });
   } else {
     // Update the app to reflect a signed out user
     // Possible error values:
