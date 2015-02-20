@@ -89,19 +89,18 @@ function addAlarm() {
 }
 
 function deleteAlarm() {
-    alarmName =$("#delAlarm").val();
-    //alarmObject.destroyAll;//({"alarmName": alarmName});
+    alarmName1 =$("#delAlarm").val();
     
-    query.get(alarmName, {
-  success: function(myObj) {
-    // The object was retrieved successfully.
-    myObj.destroy({});
-  },
-  error: function(object, error) {
-    // The object was not retrieved successfully.
-    // error is a Parse.Error with an error code and description.
-  }
-});
+    var AlarmObject = Parse.Object.extend("Alarm");
+    var query = new Parse.Query(AlarmObject);
+    query.get({
+        success: function(results) {
+          for (var i = 0; i < results.length; i++) { 
+            if (results[i].get("alarmName") == alarmName1) 
+               alarm_object.destroy({});
+          }
+        }
+    });
 }
 
 function getAlarm(id) {
