@@ -102,7 +102,12 @@ function deleteAlarm() {
 });
 }
 
-function getAllAlarms() {
+function signinCallback(authResult) {
+  if (authResult['status']['signed_in']) {
+    // Update the app to reflect a signed in user
+    // Hide the sign-in button now that the user is authorized, for example:
+    document.getElementById('signinButton').setAttribute('style', 'display: none');
+    function getAllAlarms() {
     Parse.initialize("01owFsTOu7b2ip8DKNoarvK76RW4acswtSjYVnQD", "u1u7M4gmsa5q6LzKU9lvl8dGYrQjqnRlUWnA4fcg");
     
     var AlarmObject = Parse.Object.extend("Alarm");
@@ -114,16 +119,8 @@ function getAllAlarms() {
           }
         }
     });
-    
-
-
 }
-
-function signinCallback(authResult) {
-  if (authResult['status']['signed_in']) {
-    // Update the app to reflect a signed in user
-    // Hide the sign-in button now that the user is authorized, for example:
-    document.getElementById('signinButton').setAttribute('style', 'display: none');
+    
   } else {
     // Update the app to reflect a signed out user
     // Possible error values:
