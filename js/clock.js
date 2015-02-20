@@ -1,3 +1,5 @@
+var gid;
+
 function getTime() {
     var curr=new Date();
     var h=curr.getHours();
@@ -78,7 +80,7 @@ function addAlarm() {
     
     var AlarmObject = Parse.Object.extend("Alarm");
     var alarmObject = new AlarmObject();
-      alarmObject.save({"hours": hours, "mins": mins, "ampm": ampm,"alarmName": alarmName,"userid": "arnav"}, {
+      alarmObject.save({"hours": hours, "mins": mins, "ampm": ampm,"alarmName": alarmName,"userid": gid}, {
       success: function(object) {
             insertAlarm(hours, mins, ampm, alarmName);
             hideAlarmPopup();
@@ -109,7 +111,7 @@ function getAlarm(id) {
     query.find({
         success: function(results) {
           for (var i = 0; i < results.length; i++) { 
-            if (results[i].get("userid") == "arnav") 
+            if (results[i].get("userid") == id) 
                 insertAlarm(results[i].get("hours"), results[i].get("mins"), results[i].get("ampm"), results[i].get("userid"));
           }
         }
@@ -129,6 +131,7 @@ function signinCallback(authResult) {
                     console.log('Image URL: ' + response.image.url);
                     console.log('Profile URL: ' + response.url);
                     $("#name").html(response.displayName + "'s Clock");
+                    gid = response.id;
                     getAlarm(response.id);
                 });
             });
