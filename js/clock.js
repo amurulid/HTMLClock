@@ -77,7 +77,7 @@ function addAlarm() {
     mins = $("#mins option:selected").text();
     ampm = $("#ampm option:selected").text();
     alarmName =$("#alarmName").val();
-    
+    ga('send', 'event', 'Alarm', 'Add');
     var AlarmObject = Parse.Object.extend("Alarm");
     var alarmObject = new AlarmObject();
       alarmObject.save({"hours": hours, "mins": mins, "ampm": ampm,"alarmName": alarmName,"userid": gid}, {
@@ -89,6 +89,7 @@ function addAlarm() {
 }
 
 function deleteAlarm() {
+    ga('send', 'event', 'Alarm', 'Delete');
 /*    alarmName1 =$("#delAlarm").val();
     
     var AlarmObject = Parse.Object.extend("Alarm");
