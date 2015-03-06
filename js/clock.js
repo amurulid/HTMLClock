@@ -1,3 +1,5 @@
+var gid;
+
 function getTime() {
     var curr=new Date();
     var h=curr.getHours();
@@ -75,10 +77,10 @@ function addAlarm() {
     mins = $("#mins option:selected").text();
     ampm = $("#ampm option:selected").text();
     alarmName =$("#alarmName").val();
-    
+    ga('send', 'event', 'Alarm', 'Add');
     var AlarmObject = Parse.Object.extend("Alarm");
     var alarmObject = new AlarmObject();
-      alarmObject.save({"hours": hours, "mins": mins, "ampm": ampm,"alarmName": alarmName}, {
+      alarmObject.save({"hours": hours, "mins": mins, "ampm": ampm,"alarmName": alarmName,"userid": gid}, {
       success: function(object) {
             insertAlarm(hours, mins, ampm, alarmName);
             hideAlarmPopup();
@@ -87,23 +89,58 @@ function addAlarm() {
 }
 
 function deleteAlarm() {
-    alarmName =$("#delAlarm").val();
-    alarmObject.remove({"alarmName": alarmName});
+    ga('send', 'event', 'Alarm', 'Delete');
+/*    alarmName1 =$("#delAlarm").val();
+    
+    var AlarmObject = Parse.Object.extend("Alarm");
+    var query = new Parse.Query(AlarmObject);
+    query.get({
+        success: function(results) {
+          for (var i = 0; i < results.length; i++) { 
+            if (results[i].get("alarmName") == alarmName1) 
+               alarm_object.destroy({});
+          }
+        }
+    });*/
 }
 
-function getAllAlarms() {
-    Parse.initialize("01owFsTOu7b2ip8DKNoarvK76RW4acswtSjYVnQD", "u1u7M4gmsa5q6LzKU9lvl8dGYrQjqnRlUWnA4fcg");
-    
+function getAlarm(id) {
+        Parse.initialize("01owFsTOu7b2ip8DKNoarvK76RW4acswtSjYVnQD", "u1u7M4gmsa5q6LzKU9lvl8dGYrQjqnRlUWnA4fcg");
     var AlarmObject = Parse.Object.extend("Alarm");
     var query = new Parse.Query(AlarmObject);
     query.find({
         success: function(results) {
           for (var i = 0; i < results.length; i++) { 
-            insertAlarm(results[i].get("hours"), results[i].get("mins"), results[i].get("ampm"), results[i].get("alarmName"));
+            if (results[i].get("userid") == id) 
+                insertAlarm(results[i].get("hours"), results[i].get("mins"), results[i].get("ampm"), results[i].get("alarmName"));
           }
         }
     });
-    
+}
 
-
+function signinCallback(authResult) {
+  if (authResult['status']['signed_in']) {
+    // Update the app to reflect a signed in user
+    // Hide the sign-in button now that the user is authorized, for example:
+    document.getElementById('signinButton').setAttribute('style', 'display: none');
+                    gapi.client.load('plus','v1', function(){ 
+                var request = gapi.client.plus.people.get({'userId' : 'me'});
+                request.execute(function(response) {
+                    console.log('ID: ' + response.id);
+                    console.log('Display Name: ' + response.displayName);
+                    console.log('Image URL: ' + response.image.url);
+                    console.log('Profile URL: ' + response.url);
+                    $("#name").html(response.displayName + "'s Clock");
+                    gid = response.id;
+                    getAlarm(response.id);
+                });
+            });
+  } else {
+    // Update the app to reflect a signed out user
+    // Possible error values:
+    //   "user_signed_out" - User is signed-out
+    //   "access_denied" - User denied access to your app
+    //   "immediate_failed" - Could not automatically log in the user
+    console.log('Sign-in state: ' + authResult['error']);
+  }
 }
